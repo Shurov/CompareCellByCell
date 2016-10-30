@@ -1,0 +1,20 @@
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui">
+	<ribbon>
+		<tabs>
+			<tab id="VnT" label="VnT Auto-compare">
+				<group id="Compare" label="Compare Master with Test">
+					<button id="Import" label="Import and compare" size="large" onAction="importAndCompare" imageMso="AdpStoredProcedureQuerySelect" />
+				</group>
+				<group id="Afterwork" label="Working with compare">
+					<button id="sortBoth" label="Sort both Master and Test" size="large" onAction="sortMultipleSheets" imageMso="AdpOutputOperationsGroupBy" />
+					<button id="parseMQ" label="MQ content Text to columns" size="large" onAction="parseMQ" imageMso="ConvertTextToTable" />
+					<button id="sortWithinGroups" label="Sort within groups" size="large" onAction="sortGroupsInit" imageMso="PivotTableLayoutShowInOutlineForm" />
+					<button id="replaceWithZeros" label="Replace undeviated col's with zeros" size="large" onAction="replaceZeros" imageMso="ResolveSyncError" />
+				</group>
+				<group id="VT_Batch" label="Working with VT_Batch">
+					<button id="lineVTbatch" label="Draw lines between BJG" size="large" onAction="lineVTbatch" imageMso="DatasheetGridlinesHorizontal" />
+				</group>
+			</tab>
+		</tabs>
+	</ribbon>
+</customUI>
