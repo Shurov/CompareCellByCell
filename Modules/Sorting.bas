@@ -45,13 +45,13 @@ End Sub
 
 Public Sub matchByKey(ByVal wsh As Worksheet)
     Dim uniqKey As String
-
+	
     Call getTargetWsh(wsh)
         
     If maxCol > 480 Then                        'key for VT_TRANSACTIONS
         uniqKey = "=MP" & firstDataRow & "&"";""&K" & firstDataRow & "&"";""&O" & firstDataRow & "&"";""&J" & firstDataRow & "&"";""&T" & firstDataRow & _
                 "&"";""&G" & firstDataRow & "&"";""&PY" & firstDataRow & "&"";""&A" & firstDataRow & "&"";""&P" & firstDataRow & "&"";""&I" & firstDataRow & _
-                "&"";""&RO" & firstDataRow & "&"";""&AP" & firstDataRow & "&"";""&JI" & firstDataRow & "&"";""&NH" & firstDataRow & "&"";""&AH" & firstDataRow
+                "&"";""&RO" & firstDataRow & "&"";""&AP" & firstDataRow & "&"";""&JI" & firstDataRow & "&"";""&AH" & firstDataRow
     Else                                        'key-template for everything
         uniqKey = "=A" & firstDataRow & "&"";""&B" & firstDataRow & "&"";""&C" & firstDataRow & "&"";""&D" & firstDataRow
         With wsh.Cells(headerRow, maxCol + 2)
@@ -60,7 +60,7 @@ Public Sub matchByKey(ByVal wsh As Worksheet)
             .Comment.Text Text:="The key is formed from A:D cells and is not final. Feel free to modify"
         End With
     End If
-        
+    
     With wsh
         .Range(.Cells(firstDataRow, maxCol + 2), .Cells(firstDataRow, maxCol + 3)).NumberFormat = "General"
         .Cells(headerRow, maxCol + 2).Value = "uniqueKey"
@@ -94,7 +94,7 @@ Public Sub sortTransactions(ByVal wsh As Worksheet)
 '    headerRow = firstDataRow -1
 '    maxRow = 4650
 '    Set wsh = ActiveWorkbook.Sheets(1)
-
+	
     With wsh.sort
         With .SortFields
             .Clear
@@ -116,6 +116,9 @@ Public Sub sortTransactions(ByVal wsh As Worksheet)
             .Add Key:=Range("AH" & firstDataRow & ":AH" & maxRow), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
             .Add Key:=Range("AD" & firstDataRow & ":AD" & maxRow), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
             .Add Key:=Range("NJ" & firstDataRow & ":NJ" & maxRow), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
+			.Add Key:=Range("OI" & firstDataRow & ":OI" & maxRow), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
+			.Add Key:=Range("LT" & firstDataRow & ":LT" & maxRow), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
+			.Add Key:=Range("MY" & firstDataRow & ":MY" & maxRow), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
         End With
         .SetRange Range("A" & headerRow & ":RR" & maxRow)
         .Header = xlYes
@@ -193,10 +196,10 @@ Public Sub separateExtraRows()
     'shifts extra rows in Master or Test lower, for them not to overlap
     Dim MasterExtraRowsCount As Long
     Dim TestExtraRowsCount As Long
-
+	
     MasterExtraRowsCount = WsF.Sum(Range(masterWsh.Cells(firstDataRow, maxCol + 3), masterWsh.Cells(maxRowMaster, maxCol + 3)))
     TestExtraRowsCount = WsF.Sum(Range(testWsh.Cells(firstDataRow, maxCol + 3), testWsh.Cells(maxRowTest, maxCol + 3)))
-
+	
     If MasterExtraRowsCount > TestExtraRowsCount And TestExtraRowsCount > 0 Then
         If MasterExtraRowsCount > maxRowMaster * 0.1 Or MasterExtraRowsCount > 50 Then Exit Sub
         masterWsh.Rows(maxRowMaster - MasterExtraRowsCount + 1).Resize(TestExtraRowsCount).Insert
@@ -214,12 +217,12 @@ End Sub
 Public Sub intelliSort()
     Application.ScreenUpdating = False
     
-     j = 1
-     l = 1
-     
+    j = 1
+    l = 1
+    
     'show all except zeros
     compareWsh.Range(compareWsh.Cells(headerRow, 1), compareWsh.Cells(maxCol + 3, maxRow)).AutoFilter Field:=maxCol + 1, Criteria1:=">0"
-
+	
     Call defineNewSortField
     
     Application.ScreenUpdating = True
@@ -241,7 +244,7 @@ Private Sub defineNewSortField()
     
     If UBound(Filter(deviatedCols, mostlyDeviatedCol)) > -1 Then
         a = UBound(Filter(deviatedCols, mostlyDeviatedCol)) > -1
-    
+		
         ReDim Preserve notDeviation(1 To l)
         notDeviation(l) = mostlyDeviatedCol
         l = l + 1
@@ -250,7 +253,7 @@ Private Sub defineNewSortField()
     Else
         deviatedCols(j) = mostlyDeviatedCol
     End If
-        
+	
     'apply new sorting
     Call applySorting(masterWsh)
     Call applySorting(testWsh)
@@ -258,7 +261,7 @@ Private Sub defineNewSortField()
     Calculate
     
     j = j + 1
-        
+	
     If Not noDeviationsLeft Then Call defineNewSortField
 End Sub
 
